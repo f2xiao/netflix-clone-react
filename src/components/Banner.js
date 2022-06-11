@@ -37,6 +37,14 @@ const BannerContents = styled.div`
     padding-top: 2em;
   }
   >p{
-    padding: 1em 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1em;
+    line-height: 1em;
+    max-height: 4em;
+    margin: 1em 0;
   }
 `
