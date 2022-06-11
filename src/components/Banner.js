@@ -25,7 +25,7 @@ const BannerContainer = styled.div`
   background-size: cover;
   background-position: center;
   width: 100%;
-  padding-bottom: 2.5em;
+  padding-bottom: 4em;
 `
 
 const BannerContents = styled.div`
@@ -46,5 +46,15 @@ const BannerContents = styled.div`
     line-height: 1em;
     max-height: 4em;
     margin: 1em 0;
+  }
+  >div> button{
+    /* display: inline-block; */
+    padding: .75em 2em;
+    margin-right: 1em;
+    border-radius: 4px;
+    border:0;
+    &:hover{
+      background-color: rgba(255,255,255,0.75);
+    }
   }
 `
