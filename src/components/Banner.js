@@ -48,7 +48,6 @@ const BannerContents = styled.div`
     margin: 1em 0;
   }
   >div> button{
-    /* display: inline-block; */
     padding: .75em 2em;
     margin-right: 1em;
     border-radius: 4px;

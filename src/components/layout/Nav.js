@@ -13,7 +13,9 @@ function Nav() {
   }
   useEffect(() => {
     window.addEventListener('scroll', transitionNavBar);
-    return () => window.removeEventListener('scroll', transitionNavBar);
+    return () => {
+      window.removeEventListener('scroll', transitionNavBar);
+    };
    }, [])
   return (
     <NavContainer className={ show && 'black'}>
@@ -40,6 +42,7 @@ const NavContainer = styled.div`
   > img.avatar {
     height: 2em;
     cursor: pointer;
+    border-radius: 4px;
   }
   
   &.black {
