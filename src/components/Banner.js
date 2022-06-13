@@ -1,12 +1,30 @@
-import React from 'react'
+import axios from '.././axios'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
+import requests from '../Request';
+
 
 function Banner() {
+  const [movie, setMovie] = useState({});
+
+  useEffect(() => {
+    const fetchMovie = async () => {
+      const request = await axios.get(requests.fetchTopRated);
+      // console.log(request.data.results.length - 1);
+      const randomNum = Math.floor(Math.random() * (request.data.results.length));
+      // console.log(randomNum);
+      console.log(request.data.results[randomNum]);
+      setMovie(request.data.results[randomNum]);
+    }
+    fetchMovie();
+   }, [])
+
+
   return (
-    <BannerContainer>
+    <BannerContainer style={{backgroundImage: `url(https://image.tmdb.org/t/p/original/${movie?.backdrop_path})`}}>
       <BannerContents>
-      <h1>Movie Name</h1>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum qui eum nemo, voluptatum ad, atque, explicabo reprehenderit magnam odit inventore iure veritatis doloremque quis consequatur. Ad molestias repudiandae animi iste.</p>
+        <h1>{movie.title}</h1>
+        <p>{ movie.overview}</p>
       <div>
         <button>Play</button>
         <button>More info</button>
@@ -18,36 +36,47 @@ function Banner() {
 
 export default Banner
 
-const url = 'https://thelesfilms.files.wordpress.com/2016/06/netflix-banner.jpg';
+
 
 const BannerContainer = styled.div`
-  background: url(${url});
+  position:relative;
   background-size: cover;
-  background-position: center;
+  background-position: center center;
   width: 100%;
-  padding-bottom: 4em;
+  height: 448px;
+  /* padding-bottom: 4em; */
+  object-fit: contain;
+  z-index: -1;
 `
 
 const BannerContents = styled.div`
   display: flex;
   flex-direction: column;
-  width:40%;
   margin-left: 2.5em;
+  padding-top: 140px;
   >h1{
-    padding-top: 2em;
+    font-size:3em;
+    font-weight:800;
+    padding-bottom: 0.3em;
   }
   >p{
+    width: 45em;
+    max-width: 360px;
+    height: 80px;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 1em;
-    line-height: 1em;
+    font-size: 0.8em;
+    line-height: 1.3em;
     max-height: 4em;
     margin: 1em 0;
   }
-  >div> button{
+  
+  >div{
+    padding-top: 0.9em;
+    > button{
     padding: .75em 2em;
     margin-right: 1em;
     border-radius: 4px;
@@ -55,5 +84,6 @@ const BannerContents = styled.div`
     &:hover{
       background-color: rgba(255,255,255,0.75);
     }
+  }
   }
 `
