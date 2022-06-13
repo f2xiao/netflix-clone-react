@@ -13,7 +13,7 @@ function Banner() {
       // console.log(request.data.results.length - 1);
       const randomNum = Math.floor(Math.random() * (request.data.results.length));
       // console.log(randomNum);
-      console.log(request.data.results[randomNum]);
+      // console.log(request.data.results[randomNum]);
       setMovie(request.data.results[randomNum]);
     }
     fetchMovie();
@@ -21,7 +21,7 @@ function Banner() {
 
 
   return (
-    <BannerContainer style={{backgroundImage: `url(https://image.tmdb.org/t/p/original/${movie?.backdrop_path})`}}>
+    <BannerContainer style={{backgroundImage: `url(https://image.tmdb.org/t/p/original/${movie?.backdrop_path || movie?.poster_path})`}}>
       <BannerContents>
         <h1>{movie.title}</h1>
         <p>{ movie.overview}</p>
