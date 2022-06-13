@@ -94,7 +94,6 @@ const Posters = styled.div`
     width:100%;
     transition: transform 450ms;
     cursor: pointer;
-    z-index: 0;
 
     &:hover{
       transform: scale(1.08);
