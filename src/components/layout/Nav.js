@@ -34,7 +34,7 @@ const NavContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5em 2.5em;
+  padding: 0.5em var(--padding-left);
   transition: all 0.5s ease-in;
   > img.logo {
     width: 4em;

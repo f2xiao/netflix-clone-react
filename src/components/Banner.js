@@ -51,7 +51,7 @@ const BannerContainer = styled.div`
 const BannerContents = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 2.5em;
+  padding-left: var(--padding-left);
   padding-top: 140px;
   >h1{
     font-size:3em;
