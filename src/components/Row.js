@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import axios from '.././axios'
 
 
 function Row({ title, fetchUrl, isLargeRow = false }) {
   const [movies, setMovies] = useState([]);
+  const postersContainer = useRef();
   const imgbase_url = `https://image.tmdb.org/t/p/original/`;
   useEffect(() => {
     const fetchMovies = async () => {
@@ -14,42 +15,40 @@ function Row({ title, fetchUrl, isLargeRow = false }) {
     fetchMovies();
   }, [fetchUrl]);
 
-  const scroll = (button, e) => {
+  const slide = (button) => {
     // console.log(e.target.parentNode.parentNode.children[1].scrollLeft)
-    const element = e.target.parentNode.children[1];
+    
     let distanceX;
     if (button === 'next') {
-      distanceX =element.scrollLeft + 400
+      distanceX =postersContainer.current.scrollLeft + 400
     }
     if (button === 'prev') {
-      distanceX =element.scrollLeft - 400
+      distanceX =postersContainer.current.scrollLeft - 400
     }
 
-    element.scroll({
+    postersContainer.current.scroll({
       left: distanceX,
       behavior:'smooth'
     })
   }
-  const handleClickPrev = (e) => {
-    scroll('prev', e);
+  const handleClickPrev = () => {
+    slide('prev');
   }
-  const handleClickNext = (e) => {
-    scroll('next', e)
+  const handleClickNext = () => {
+    slide('next')
   }
   return (
     <RowContainer>
       <h2>{title}</h2>
-      <Posters>
+      <Posters ref={postersContainer}>
         {movies.map(movie =>
           <img className={isLargeRow? 'large' : undefined}
             key={movie.id}
             alt={movie.title}
             src={`${imgbase_url}${isLargeRow ? (movie?.poster_path) : (movie?.backdrop_path)}`} />)}
       </Posters>
-     
-      <button className="prev" onClick={handleClickPrev}>&#10094;</button>
-      <button className="next" onClick={handleClickNext}>&#10095;</button>
-     
+        <button className={isLargeRow? 'large prev' : 'prev'} onClick={handleClickPrev}>&#10094;</button>
+        <button className={isLargeRow? 'large next' : 'next'} onClick={handleClickNext}>&#10095;</button>
     </RowContainer>
    
   )
@@ -58,14 +57,19 @@ function Row({ title, fetchUrl, isLargeRow = false }) {
 export default Row
 
 const RowContainer = styled.div`
- position: relative;
+position: relative;
 >h2{
   padding:0.5em 1.5em;
 }
 >button{
   position: absolute;
-  top:58%;
- 
+  top: 3.45em;
+
+  transform: translateY(50px);
+  &.large{
+    transform: translateY(125px);
+  }
+
   cursor: pointer;
 
   &.prev{
@@ -76,7 +80,6 @@ const RowContainer = styled.div`
     right:2.5em;
   }
 }
-
 `
 const Posters = styled.div`
   display:flex;
@@ -104,4 +107,5 @@ const Posters = styled.div`
       max-height:250px;
     }
   }
+  
 `

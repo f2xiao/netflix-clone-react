@@ -46,7 +46,6 @@ const BannerContainer = styled.div`
   height: 448px;
   /* padding-bottom: 4em; */
   object-fit: contain;
-  z-index: -1;
 `
 
 const BannerContents = styled.div`
