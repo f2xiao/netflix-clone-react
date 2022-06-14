@@ -39,7 +39,7 @@ function Row({ title, fetchUrl, isLargeRow = false }) {
     })
   }
   const handleShowButton = () => {
-    const start = window.innerWidth;
+    const start = window.innerWidth + postersElement.offsetWidth;
     const end = postersElement.scrollWidth;
     const range = end - start;
     const distance = postersElement.scrollLeft;
@@ -61,7 +61,7 @@ function Row({ title, fetchUrl, isLargeRow = false }) {
     slide('prev');
   }
   const handleClickNext = () => {
-    if (postersElement.scrollLeft > postersElement.scrollWidth - window.innerWidth - postersElement.offsetWidth) {
+    if (postersElement.scrollLeft > postersElement.scrollWidth - window.innerWidth - postersElement.offsetWidth * 2 ) {
       setShowNext(false);
     }
     setShowPrev(true);
@@ -91,9 +91,10 @@ export default Row
 
 const RowContainer = styled.div`
 position: relative;
-padding-left: var(--padding-left);
+
 >h2{
-  padding:0.5em 0;
+  padding:0.5em;
+  padding-left: 2.7em;
 }
 
 
@@ -108,6 +109,9 @@ const Posters = styled.div`
   &::-webkit-scrollbar {
   display:none
 }
+
+padding-left: var(--padding-left);
+
   >img{
     display: block;
     max-height:100px;
