@@ -18,7 +18,7 @@ function Row({ title, fetchUrl, isLargeRow = false }) {
     const fetchMovies = async () => {
       const request = await axios.get(fetchUrl);
       setMovies(request.data.results);
-      console.log(request.data.results.length)
+      // console.log(request.data.results)
     }
     fetchMovies();
   }, [fetchUrl]);
@@ -75,12 +75,23 @@ function Row({ title, fetchUrl, isLargeRow = false }) {
         onMouseEnter={() => { handleShowButton() }}
         onMouseLeave={() => { setShowNext(false); setShowPrev(false) }}>
         {movies.map(movie =>
-          <img ref={imgElement} className={isLargeRow? 'large' : undefined}
+        (
+          ((isLargeRow && movie.poster_path) || (!isLargeRow && movie.backdrop_path)) && <img
+            ref={imgElement}
+            className={isLargeRow ? 'large' : undefined}
             key={movie.id}
             alt={movie.title}
-            src={`${imgbase_url}${isLargeRow ? (movie?.poster_path) : (movie?.backdrop_path)}`} />)}
-        <button ref={prevButton} className={showPrev && (isLargeRow? 'large prev black' : 'prev black')} onClick={handleClickPrev}>&#10094;</button>
-         <button className={ showNext && (isLargeRow? 'large next black' : 'next black')} onClick={handleClickNext}>&#10095;</button>
+            src={`${imgbase_url}${isLargeRow ? (movie?.poster_path) : (movie?.backdrop_path)}`} 
+          />
+          )
+        )}
+        <button
+          ref={prevButton}
+          className={showPrev && (isLargeRow ? 'large prev black' : 'prev black')}
+          onClick={handleClickPrev}>&#10094;</button>
+        <button
+          className={showNext && (isLargeRow ? 'large next black' : 'next black')} 
+          onClick={handleClickNext}>&#10095;</button>
       </Posters>
     </RowContainer>
    
@@ -96,8 +107,6 @@ position: relative;
   padding:0.5em;
   padding-left: 2.7em;
 }
-
-
 
 `
 const Posters = styled.div`
