@@ -153,7 +153,7 @@ padding-left: var(--padding-left);
   cursor: pointer;
 
   &.prev{
-    left:0.5em;
+    left:0;
   }
 
   &.next{
