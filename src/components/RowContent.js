@@ -15,14 +15,14 @@ function RowContent({ genreIDs, rating }) {
       
       genreIDs.forEach(id => {
         const found = genresList.find((genre) => genre.id === id);
-        
+        if (genres.includes(found.name)) return;
         setGenres((prevGenres) => {
           return [...prevGenres, found.name]  
         });
       });
       // console.log(genresList.length)
       // console.log(genreIDs)
-      console.log(genres);
+      // console.log(genres);
       
     }
 
@@ -32,9 +32,9 @@ function RowContent({ genreIDs, rating }) {
   return (
     <RowContentContainer>
       <div>RowContent</div>
-      {/* {genres.map((genre) => 
-        (<span>{genre}</span>)
-      )} */}
+      {genres.map((genre) => 
+        (<span>{genre} </span>)
+      )}
     </RowContentContainer>
   )
 }
