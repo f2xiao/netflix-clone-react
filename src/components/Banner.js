@@ -42,8 +42,8 @@ const BannerContainer = styled.div`
   position:relative;
   background-size: cover;
   background-position: center center;
-  width: 100%;
-  height: 448px;
+  /* width: 100%; */
+  min-height: 448px;
   /* padding-bottom: 4em; */
   object-fit: contain;
 `

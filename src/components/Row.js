@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useContext } from 'react'
 import styled from 'styled-components'
 import axios from '.././axios'
 import RowContent from './RowContent';
@@ -86,7 +86,7 @@ function Row({ title, fetchUrl, isLargeRow = false }) {
               alt={movie.title}
               src={`${imgbase_url}${isLargeRow ? (movie?.poster_path) : (movie?.backdrop_path)}`} 
               />
-              <RowContent />
+              <RowContent rating={movie.vote_average} genreIDs={movie.genre_ids} />
             </div>
           )
           )
