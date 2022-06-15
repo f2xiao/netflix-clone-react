@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import axios from '.././axios'
+import RowContent from './RowContent';
 
 
 function Row({ title, fetchUrl, isLargeRow = false }) {
@@ -18,7 +19,8 @@ function Row({ title, fetchUrl, isLargeRow = false }) {
     const fetchMovies = async () => {
       const request = await axios.get(fetchUrl);
       setMovies(request.data.results);
-      // console.log(request.data.results)
+      // console.log(request.data.results);
+       
     }
     fetchMovies();
   }, [fetchUrl]);
@@ -76,13 +78,17 @@ function Row({ title, fetchUrl, isLargeRow = false }) {
         onMouseLeave={() => { setShowNext(false); setShowPrev(false) }}>
         {movies.map(movie =>
         (
-          ((isLargeRow && movie.poster_path) || (!isLargeRow && movie.backdrop_path)) && <img
-            ref={imgElement}
-            className={isLargeRow ? 'large' : undefined}
-            key={movie.id}
-            alt={movie.title}
-            src={`${imgbase_url}${isLargeRow ? (movie?.poster_path) : (movie?.backdrop_path)}`} 
-          />
+          ((isLargeRow && movie.poster_path) || (!isLargeRow && movie.backdrop_path)) && (
+            <div  key={movie.id}>
+              <img
+              ref={imgElement}
+              className={isLargeRow ? 'large' : undefined}
+              alt={movie.title}
+              src={`${imgbase_url}${isLargeRow ? (movie?.poster_path) : (movie?.backdrop_path)}`} 
+              />
+              <RowContent />
+            </div>
+          )
           )
         )}
         <button
@@ -120,13 +126,11 @@ const Posters = styled.div`
 }
 
 padding-left: var(--padding-left);
-
-  >img{
+  >div>img{
     display: block;
     max-height:100px;
     object-fit:contain;
     margin-right:10px;
-    width:100%;
     border-radius:4px;
     transition: transform 450ms;
     cursor: pointer;
