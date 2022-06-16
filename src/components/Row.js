@@ -1,28 +1,32 @@
 import React, { useState, useEffect, useRef, useContext } from 'react'
 import styled from 'styled-components'
 import axios from '.././axios'
-import RowContent from './RowContent';
+import { GenresContext } from '../App';
 
 
-function Row({ title, fetchUrl, isLargeRow = false }) {
+function Row({ title, fetchUrl, isLargeRow = false, handleMouseEnter, handleMouseLeave }) {
   const [movies, setMovies] = useState([]);
+  const genresList = useContext(GenresContext);
   const [showNext, setShowNext] = useState(false);
   const [showPrev, setShowPrev] = useState(false);
-  const postersContainer = useRef();
+  const postersContainer = useRef(null);
   const postersElement = postersContainer.current;
-  const prevButton = useRef();
-  const imgElement = useRef();
-  const imgbase_url = `https://image.tmdb.org/t/p/original/`;
-
-  
+  const parentContainer = useRef(null);
+  // console.log(rowContentContainer);
+  const imgContainer = useRef();
+  const imgEle = imgContainer.current;
+  const imgbase_url = `https://image.tmdb.org/t/p/original`;
+  // console.log(imgContainer.current.src);
+  // console.log(postersElement.children);
   useEffect(() => {
     const fetchMovies = async () => {
       const request = await axios.get(fetchUrl);
       setMovies(request.data.results);
       // console.log(request.data.results);
-       
     }
     fetchMovies();
+    // setTop(parentContainer.current.offsetTop)
+    
   }, [fetchUrl]);
 
   const slide = (button) => {
@@ -41,7 +45,7 @@ function Row({ title, fetchUrl, isLargeRow = false }) {
     })
   }
   const handleShowButton = () => {
-    const start = window.innerWidth + postersElement.offsetWidth;
+    const start = window.innerWidth;
     const end = postersElement.scrollWidth;
     const range = end - start;
     const distance = postersElement.scrollLeft;
@@ -63,42 +67,47 @@ function Row({ title, fetchUrl, isLargeRow = false }) {
     slide('prev');
   }
   const handleClickNext = () => {
-    if (postersElement.scrollLeft > postersElement.scrollWidth - window.innerWidth - postersElement.offsetWidth * 2 ) {
+    if (postersElement.scrollLeft > postersElement.scrollWidth - window.innerWidth - postersElement.offsetWidth ) {
       setShowNext(false);
     }
     setShowPrev(true);
     slide('next')
   }
+
   return (
-    <RowContainer>
+    <RowContainer
+      onMouseEnter={() => { handleShowButton() }}
+      onMouseLeave={() => { setShowNext(false); setShowPrev(false) }}
+      >
       <h2>{title}</h2>
       <Posters
         ref={postersContainer}
-        onMouseEnter={() => { handleShowButton() }}
-        onMouseLeave={() => { setShowNext(false); setShowPrev(false) }}>
+      >
         {movies.map(movie =>
         (
           ((isLargeRow && movie.poster_path) || (!isLargeRow && movie.backdrop_path)) && (
-            <div  key={movie.id}>
+            
               <img
-              ref={imgElement}
+                ref={imgContainer}
               className={isLargeRow ? 'large' : undefined}
-              alt={movie.title}
-              src={`${imgbase_url}${isLargeRow ? (movie?.poster_path) : (movie?.backdrop_path)}`} 
+              key={movie?.poster_path || movie?.backdrop_path}
+                alt={movie.name}
+                src={`${imgbase_url}${isLargeRow ? (movie?.poster_path) : (movie?.backdrop_path)}`}
+              // onMouseEnter={(e) => { handleMouseEnter(e, movie) }}
+              onMouseOver={(e) => { handleMouseEnter(e, movie) }}
+              // onMouseLeave={()=>{handleMouseLeave()}}
               />
-              <RowContent rating={movie.vote_average} genreIDs={movie.genre_ids} />
-            </div>
+           
           )
           )
         )}
+      </Posters>
         <button
-          ref={prevButton}
-          className={showPrev && (isLargeRow ? 'large prev black' : 'prev black')}
+          className={isLargeRow ? `large prev ${showPrev && 'black'}` : `prev ${showPrev && 'black'}`}
           onClick={handleClickPrev}>&#10094;</button>
         <button
-          className={showNext && (isLargeRow ? 'large next black' : 'next black')} 
+          className={isLargeRow ? `large next ${showNext && 'black'}` : `next ${showNext && 'black'}`} 
           onClick={handleClickNext}>&#10095;</button>
-      </Posters>
     </RowContainer>
    
   )
@@ -113,42 +122,12 @@ position: relative;
   padding:0.5em;
   padding-left: 2.7em;
 }
-
-`
-const Posters = styled.div`
-  display:flex;
-  flex-direction: row;
-  overflow-y: hidden;
-  overflow-x: scroll;
-  /* padding: 0 1.5em; */
-  &::-webkit-scrollbar {
-  display:none
-}
-
-padding-left: var(--padding-left);
-  >div>img{
-    display: block;
-    max-height:100px;
-    object-fit:contain;
-    margin-right:10px;
-    border-radius:4px;
-    transition: transform 450ms;
-    cursor: pointer;
-
-    &:hover{
-      transform: scale(1.08);
-      opacity: 1;
-    }
-
-    &.large{
-      max-height:250px;
-    }
-  }
-  >button{
+>button{
   position: absolute;
   top: 56px;
   opacity: 0;
   font-size:2em;
+  z-index:99;
   &.black{
     opacity: 0.7;
   }
@@ -173,5 +152,29 @@ padding-left: var(--padding-left);
     right:0;
   }
 }
+
+`
+const Posters = styled.div`
+  /* position: relative; */
+  display:flex;
+  flex-direction: row;
+  overflow-y: auto;
+  overflow-x: scroll;
+  &::-webkit-scrollbar {
+  display:none
+}
+
+padding-left: var(--padding-left);
+>img{
+      display: block;
+      cursor: pointer;
+      max-height:100px;
+      object-fit:contain;
+      margin-right:10px;
+      border-radius:4px;
+      &.large{
+        max-height:250px;
+      }
+    }
   
 `
