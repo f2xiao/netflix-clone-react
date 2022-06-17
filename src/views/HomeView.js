@@ -93,7 +93,7 @@ function HomeView() {
     // console.log(e.target.getBoundingClientRect());
     
     // console.log(right, window.innerWidth, width, height);
-    let size = { "width": width * 1.5, "height": height + 56 };
+    
     if (right > window.innerWidth) {
       left -= width;
     }
@@ -104,13 +104,14 @@ function HomeView() {
     left -= 1 / 4 * width;
     top = top - 56 + window.scrollY;
     
-    let position = { top, left };
-    let opacity = 1;
-    setPreview({ movie, genres, imgSrc,video, size, position, opacity })
+    let containerStyle = { top, left, "width": width * 1.5, "height": height + 56, opacity:1};
+    
+    setPreview({ movie, genres, imgSrc,video, containerStyle })
     // console.log(preview)
   }
   const hidePreview = (e) => {
-    setPreview({opacity:0, position:"absolute", fontSize:'0.8em'})
+    let containerStyle = { opacity: 0, position: "absolute", fontSize: '0.8em' };
+    setPreview({containerStyle})
   }
 
   useEffect(() => { 

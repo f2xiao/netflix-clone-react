@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styled from 'styled-components';
 
 
@@ -6,30 +6,34 @@ function Preview({ preview, handleMouseLeave }) {
   const ytBaseUrl = "https://www.youtube.com/embed/";
   const previewElement = useRef(null);
   const videoElement = useRef(null);
+  const [styleObj, setStyleObj] = useState({});
+  const [showDetails, setShowDetails] = useState(false);
+
+  useEffect(() => { 
+    setStyleObj(preview.containerStyle);
+    setShowDetails(false);
+  },[preview.containerStyle]
+  )
 
   const expandPreview = (e) => {
-    previewElement.current.style.position = "fixed";
-    previewElement.current.style.width = "90vw";
-    previewElement.current.style.top = `3em`;
-    previewElement.current.style.left = `5vw`;
-    previewElement.current.style.height = "90vh";
-    previewElement.current.style.fontSize = "1.5em";
-    videoElement.current.style.width = "90vw";
-    videoElement.current.style.height = "80vh";
+    setStyleObj({
+          "position":"fixed",
+          left: "50%",
+          top: "50%",
+          transform: "translate(-50%, -50%)",
+          "fontSize": "1em",
+          "opacity": 1,
+          "padding": "1em"
+    })
+    setShowDetails(true);
+    videoElement.current.style.width = "85vw";
+    videoElement.current.style.height = "75vh";
   }
   return (
     <PreviewContainer
       ref={previewElement}
       onMouseLeave={(e)=>{handleMouseLeave(e)}}
-      style={{
-        top: preview?.position?.top,
-        left: preview?.position?.left,
-        opacity: preview?.opacity,
-        width: preview?.size?.width,
-        height: preview?.size?.height,
-        position: preview?.position,
-        fontSize: preview?.fontSize
-      }}
+      style={styleObj}
     >
       {preview.video ? (
         <div>
@@ -52,10 +56,12 @@ function Preview({ preview, handleMouseLeave }) {
           </button>
           }
         </h5>
-        
           <p>
-          {preview?.genres}
+            {preview?.genres}
           </p>
+          {showDetails && <p>
+            {`Overview: ${preview?.movie?.overview}`}
+          </p>}
        </PreviewInfo>
       
     </PreviewContainer>
@@ -69,9 +75,6 @@ const PreviewContainer = styled.div`
   background: rgba(255,255,255,1);
   position: absolute;
   font-size:0.8em;
-  /* z-index:3; */
-  /* transition: all 0.5s; */
-  /* border-radius:5px; */
   border-top-left-radius:5px;
   border-top-right-radius:5px;
   box-shadow: 5px 5px rgba(255,255,255,0.3);
@@ -84,9 +87,11 @@ const PreviewContainer = styled.div`
   background-color: rgba(0,0,0,0.9);
   /* position: relative; */
   z-index:2;
+  
    >iframe{
     display:block;
     width:100%;
+    margin:0 auto;
    }
  }
  
