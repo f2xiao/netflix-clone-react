@@ -36,9 +36,10 @@ const PreviewContainer = styled.div`
   position: absolute;
   font-size:0.8em;
   /* z-index:3; */
-  /* transition: all 0.1s ease-in; */
+  /* transition: all 0.5s; */
   border-radius:5px;
   box-shadow: 5px 5px rgba(255,255,255,0.3);
+  will-change: opacity, top, left;
  >img{
   display:block;
   width:100%;

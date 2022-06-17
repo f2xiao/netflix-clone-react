@@ -7,6 +7,8 @@ import requests from './../Request';
 import axios from '.././axios';
 import Preview from '../components/Preview';
 
+const api_key = process.env.REACT_APP_API_KEY;
+
 function HomeView() {
   const [genresList, setGenresList] = useState([]);
   const [preview, setPreview] = useState({});
@@ -44,8 +46,10 @@ function HomeView() {
       url: requests.fetchDocumentaries
     },
   ];
+
+
   
-  const showPreview = (e, movie) => {
+  const showPreview = async (e, movie) => {
     // preview info: movie genres
     let genres = '';
     movie.genre_ids?.forEach(id => {
@@ -53,13 +57,21 @@ function HomeView() {
       genres += `${found.name} `;
     });
     // prview header img url
+    let video = [];
+    Promise.all([
+      axios.get(`movie/${movie.id}/videos?api_key=${api_key}&language=en-US`),
+      axios.get(`tv/${movie.id}/videos?api_key=${api_key}&language=en-US`)
+    ]).then((response) => {
+      video = response[0].data.results.length !== 0 ? response[0].data.results : response[1].data.results
+    }).catch(error => console.log(error));
+    
     let imgSrc = e.target.src;
     
     // preview locations
     let { top, left, width, height, right } = e.target.getBoundingClientRect();
-    console.log(e.target.getBoundingClientRect());
+    // console.log(e.target.getBoundingClientRect());
     
-    console.log(right, window.innerWidth, width, height);
+    // console.log(right, window.innerWidth, width, height);
     let size = { "width": width * 1.5, "height": height + 56 };
     if (right > window.innerWidth) {
       left -= width;
@@ -68,8 +80,8 @@ function HomeView() {
     top = top - 56 +  window.scrollY;
     let position = { top, left };
     let opacity = 1;
-    setPreview({ movie, genres, imgSrc, size, position, opacity })
-    console.log(preview)
+    setPreview({ movie, genres, imgSrc, video, size, position, opacity })
+    // console.log(preview)
   }
 
   const hidePreview = (e) => {
