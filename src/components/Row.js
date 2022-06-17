@@ -1,20 +1,15 @@
-import React, { useState, useEffect, useRef, useContext } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import axios from '.././axios'
-import { GenresContext } from '../App';
 
 
-function Row({ title, fetchUrl, isLargeRow = false, handleMouseEnter, handleMouseLeave }) {
+function Row({ title, fetchUrl, isLargeRow = false, handleMouseOver}) {
   const [movies, setMovies] = useState([]);
-  const genresList = useContext(GenresContext);
   const [showNext, setShowNext] = useState(false);
   const [showPrev, setShowPrev] = useState(false);
   const postersContainer = useRef(null);
   const postersElement = postersContainer.current;
-  const parentContainer = useRef(null);
-  // console.log(rowContentContainer);
-  const imgContainer = useRef();
-  const imgEle = imgContainer.current;
+ 
   const imgbase_url = `https://image.tmdb.org/t/p/original`;
   // console.log(imgContainer.current.src);
   // console.log(postersElement.children);
@@ -25,11 +20,9 @@ function Row({ title, fetchUrl, isLargeRow = false, handleMouseEnter, handleMous
       // console.log(request.data.results);
     }
     fetchMovies();
-    // setTop(parentContainer.current.offsetTop)
-    
   }, [fetchUrl]);
 
-  const slide = (button) => {
+  const slidePosters = (button) => {
     
     let distanceX;
     if (button === 'next') {
@@ -44,7 +37,7 @@ function Row({ title, fetchUrl, isLargeRow = false, handleMouseEnter, handleMous
       behavior:'smooth'
     })
   }
-  const handleShowButton = () => {
+  const showButtons = () => {
     const start = window.innerWidth;
     const end = postersElement.scrollWidth;
     const range = end - start;
@@ -64,19 +57,19 @@ function Row({ title, fetchUrl, isLargeRow = false, handleMouseEnter, handleMous
       setShowPrev(false);
     }
     setShowNext(true);
-    slide('prev');
+    slidePosters('prev');
   }
   const handleClickNext = () => {
     if (postersElement.scrollLeft > postersElement.scrollWidth - window.innerWidth - postersElement.offsetWidth ) {
       setShowNext(false);
     }
     setShowPrev(true);
-    slide('next')
+    slidePosters('next')
   }
 
   return (
     <RowContainer
-      onMouseEnter={() => { handleShowButton() }}
+      onMouseEnter={() => { showButtons() }}
       onMouseLeave={() => { setShowNext(false); setShowPrev(false) }}
       >
       <h2>{title}</h2>
@@ -88,16 +81,14 @@ function Row({ title, fetchUrl, isLargeRow = false, handleMouseEnter, handleMous
           ((isLargeRow && movie.poster_path) || (!isLargeRow && movie.backdrop_path)) && (
             
               <img
-                ref={imgContainer}
-              className={isLargeRow ? 'large' : undefined}
-              key={movie?.poster_path || movie?.backdrop_path}
+                className={isLargeRow ? 'large' : undefined}
+                key={movie?.poster_path || movie?.backdrop_path}
                 alt={movie.name}
                 src={`${imgbase_url}${isLargeRow ? (movie?.poster_path) : (movie?.backdrop_path)}`}
-              // onMouseEnter={(e) => { handleMouseEnter(e, movie) }}
-              onMouseOver={(e) => { handleMouseEnter(e, movie) }}
+                onMouseOver={(e) => { handleMouseOver(e, movie) }}
+                // onMouseOver={(e) => { e.target.style.transform="scale(1.5)" }}
               // onMouseLeave={()=>{handleMouseLeave()}}
               />
-           
           )
           )
         )}
