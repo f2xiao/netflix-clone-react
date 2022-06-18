@@ -47,7 +47,7 @@ export default Nav
 const NavContainer = styled.div`
   position: fixed;
   top:0;
-  width:100%;
+  width:100vw;
   z-index:1;
   display: flex;
   justify-content: space-between;
