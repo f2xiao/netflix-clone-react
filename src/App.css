@@ -5,7 +5,7 @@
   box-sizing: border-box 
 }
 
-button{
+a,input,button{
   appearance: none;
   outline: none;
   text-decoration: none;
@@ -17,3 +17,8 @@ button:active{
   border: none;
   outline: none;
 }
+
+button{
+  cursor: pointer;
+}
+
