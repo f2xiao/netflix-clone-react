@@ -2,3 +2,16 @@
   margin: 0;
   box-sizing: border-box 
 }
+
+button{
+  appearance: none;
+  outline: none;
+  text-decoration: none;
+  text-transform: none;
+  border:none;
+  user-select: none;
+}
+button:active{
+  border: none;
+  outline: none;
+}

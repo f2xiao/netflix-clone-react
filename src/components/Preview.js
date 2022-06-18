@@ -16,11 +16,12 @@ function Preview({ preview, handleMouseLeave }) {
   )
 
   const expandPreview = (e) => {
+    e.preventDefault();
     setStyleObj({
           "position":"fixed",
-          left: "50%",
-          top: "50%",
-          transform: "translate(-50%, -50%)",
+          "left": "50%",
+          "top": "50%",
+          "transform": "translate(-50%, -50%)",
           "fontSize": "1em",
           "opacity": 1,
           "padding": "1em"
@@ -40,7 +41,7 @@ function Preview({ preview, handleMouseLeave }) {
           <iframe
           ref={videoElement}
           src={`${ytBaseUrl}${preview.video.key}?mute=1&autoplay=1 `}
-          frameborder="0"
+          frameBorder="0"
           allow="autoplay; encrypted-media"
           allowfullscreen
           title="video"
