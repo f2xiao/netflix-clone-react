@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import Footer from '../components/layout/Footer';
 import Nav from '../components/layout/Nav';
@@ -6,6 +6,7 @@ import SignIn from '../components/SignIn';
 
 function LoginView() {
   const [signIn, setSignIn] = useState(false);
+  const inputEle = useRef(null);
 
   const showSignIn = (e, logoEle) => {
     // prevent refresh 
@@ -30,6 +31,15 @@ function LoginView() {
      // hide the signin button
      buttonEle.style.display = "block";
   }
+
+  const validateInput = (ipt) => {
+    if (!ipt.value) {
+      alert('Email is required!')
+      return null;
+    } else {
+      return ipt.value;
+    }
+  }
   return (
     <LoginViewContainer>
       <Nav handleImgClick={hideSignIn} handleButtonClick={showSignIn} />
@@ -42,10 +52,13 @@ function LoginView() {
               <h1>Unlimited movies, TV shows, and more.</h1>
             <h2>Watch anywhere. Cancel anytime.</h2>
             <h3>Ready to watch? Enter your email to create or restart your membership.</h3>
-            <form action="">
-            <input type="email" placeholder='Email address' />
-            <button type="button">Get Started &gt;</button>
-           </form>
+              <form action="">
+                  <input
+                    ref={inputEle}
+                      type="email"
+                      placeholder='Email address' />
+                <button onClick={()=>{ validateInput(inputEle.current)&&setSignIn(true) }} type="button">Get Started &gt;</button>
+              </form>
             </div>
           </FormContainer>
             )}
