@@ -29,8 +29,6 @@ export default Footer
 
 const FooterContainerWrapper = styled.div`
   background-color: rgba(255,255,255,0.8);
-  width:100%;
-
 `
 const FooterContainer = styled.div`
 a:hover{
@@ -56,8 +54,6 @@ margin-bottom: 20px;
     margin-bottom:16px;
     min-width: 190px;
     padding-right:12px;
-    
-
   }
   
 }
