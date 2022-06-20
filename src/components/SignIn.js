@@ -18,7 +18,7 @@ function SignIn() {
             <button type="button">Sign in</button>
           </form>
           <p style={{marginTop:'3em', fontSize:'1.2em'}}>
-            New to Netflix?<a style={{display:'inline-block', marginLeft:'0.3em'}} href="/">Sign up now.</a>
+            New to Netflix?<a style={{display:'inline-block', marginLeft:'0.3em'}} href="/#">Sign up now.</a>
           </p>
       </FormContainer>
       </div>

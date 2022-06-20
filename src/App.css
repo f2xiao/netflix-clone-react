@@ -2,6 +2,7 @@
 
 *{
   margin: 0;
+  padding:0;
   box-sizing: border-box 
 }
 
@@ -13,6 +14,9 @@ a,input,button{
   border:none;
   user-select: none;
 }
+a{
+  background-color: transparent;
+}
 button:active{
   border: none;
   outline: none;
@@ -20,5 +24,10 @@ button:active{
 
 button{
   cursor: pointer;
+}
+
+ul, li{
+  text-decoration: none;
+  list-style: none;
 }
 
