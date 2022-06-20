@@ -1,21 +1,29 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components';
-function SignIn() {
+function SignIn({ email }) {
+  const [input, setInput] = useState(email);
   return (
     <SignInContainer>
       <div style={{padding:'4em', background:'rgba(255,255,255,0.8)', borderRadius:'4px', width:'40%', maxWidth:500}}>
       <h1>Sign In</h1>
       <FormContainer>
-          <form>
+          <form action="/" onSubmit>
             <label htmlFor="">
               <label htmlFor="">Email or phone number</label>
-              <input type="email" name="" id="" />
+              <input
+                required
+                type="email"
+                name="" id="email"
+                autoFocus
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                value={input}
+                onChange={(e) => { setInput(e.target.value) }} />
             </label>
             <label>
               <label htmlFor="">Password</label>
-              <input type="password" name="" id="" />
+              <input required minLength="8" type="password" name="" id="" />
             </label>
-            <button type="button">Sign in</button>
+            <button type="submit">Sign in</button>
           </form>
           <p style={{marginTop:'3em', fontSize:'1.2em'}}>
             New to Netflix?<a style={{display:'inline-block', marginLeft:'0.3em'}} href="/#">Sign up now.</a>

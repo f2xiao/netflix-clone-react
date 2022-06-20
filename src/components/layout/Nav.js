@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import logo from '../../logo.svg';
 
-function Nav({handleButtonClick, handleImgClick}) {
+function Nav({handleOnMount, handleButtonClick, handleImgClick}) {
   const user = null;
   const [show, setShow] = useState(false);
   const buttonEle = useRef(null);
@@ -19,11 +19,14 @@ function Nav({handleButtonClick, handleImgClick}) {
   useEffect(() => {
     // add scroll event handler on mount for nav background
     window.addEventListener('scroll', transitionNavBar);
+    handleOnMount(logoEle.current, buttonEle.current )
+    // console.log(logoEle.current)
+    // console.log(buttonEle.current)
     return () => {
       // clean up event listener on unmount
       window.removeEventListener('scroll', transitionNavBar);
     };
-   }, [])
+   }, [handleOnMount])
   return (
     <NavContainer className={ show && 'black'}>
       <img
@@ -31,12 +34,12 @@ function Nav({handleButtonClick, handleImgClick}) {
         src={logo}
         alt="logo"
         className="logo"
-        onClick={(e) => {handleImgClick(e,buttonEle.current)}} />
+        onClick={(e) => {handleImgClick(e)}} />
       {user ?
         <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png" alt="" className="avatar" /> :
         <button
           ref={buttonEle}
-          onClick={(e) => { handleButtonClick(e, logoEle.current) }}>Sign In</button>
+          onClick={(e) => { handleButtonClick(e) }}>Sign In</button>
       }
     </NavContainer>
   )

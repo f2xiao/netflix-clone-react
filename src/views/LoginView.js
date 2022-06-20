@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import styled from 'styled-components';
 import Footer from '../components/layout/Footer';
 import Nav from '../components/layout/Nav';
@@ -6,62 +6,77 @@ import SignIn from '../components/SignIn';
 
 function LoginView() {
   const [signIn, setSignIn] = useState(false);
+  const [email, setEmail] = useState('');
+  const [navEleObj, setNavEleObj] = useState({
+    "logo": null,
+    "signIn": null
+  }); 
   const inputEle = useRef(null);
 
-  const showSignIn = (e, logoEle) => {
+  const passEleRef = useCallback((logoEle, signInEle) => {
+      setNavEleObj({
+        "logo": logoEle,
+        "signIn": signInEle
+      });
+      // console.log(navEleObj);
+    },[])
+
+  // useEffect(() => {
+  //   console.log(navEleObj);
+  //  })
+
+  const showSignIn = ((e) => {
+    const { logo, signIn } = { ...navEleObj };
     // prevent refresh 
     e.preventDefault();
     // show SignIn comp
     setSignIn(true);
     // hide the signin button
-    e.target.style.display = "none";
+   signIn.style.display = "none";
     // enable logo image click
-    logoEle.style.pointerEvents = "auto";
-    logoEle.style.cursor = "pointer";
+    logo.style.pointerEvents = "auto";
+    logo.style.cursor = "pointer";
     // console.log(logoEle);
-  }
-
-  const hideSignIn = (e, buttonEle) => {
+  })
+ 
+  const hideSignIn = (e) => {
+    const { logo, signIn } = { ...navEleObj };
     // prevent refresh
     e.preventDefault();
     // disable logo image click
-    e.target.style.pointerEvents = "none";
+    logo.style.pointerEvents = "none";
      // show SignIn comp
      setSignIn(false);
      // hide the signin button
-     buttonEle.style.display = "block";
-  }
-
-  const validateInput = (ipt) => {
-    if (!ipt.value) {
-      alert('Email is required!')
-      return null;
-    } else {
-      return ipt.value;
-    }
+     signIn.style.display = "block";
   }
   return (
     <LoginViewContainer>
-      <Nav handleImgClick={hideSignIn} handleButtonClick={showSignIn} />
+      <Nav handleOnMount={passEleRef} handleImgClick={hideSignIn} handleButtonClick={showSignIn} />
       <div style={{minHeight: '85vh', display:'flex', justifyContent:'center'}}>
-        {
-          
-        signIn ? <SignIn /> : (
-          <FormContainer>
-              <div>
-              <h1>Unlimited movies, TV shows, and more.</h1>
-            <h2>Watch anywhere. Cancel anytime.</h2>
-            <h3>Ready to watch? Enter your email to create or restart your membership.</h3>
-              <form action="">
-                  <input
-                    ref={inputEle}
-                      type="email"
-                      placeholder='Email address' />
-                <button onClick={()=>{ validateInput(inputEle.current)&&setSignIn(true) }} type="button">Get Started &gt;</button>
-              </form>
-            </div>
-          </FormContainer>
-            )}
+        {  
+          signIn ? <SignIn email={email} /> : (
+              <FormContainer>
+                  <div>
+                    <h1>Unlimited movies, TV shows, and more.</h1>
+                    <h2>Watch anywhere. Cancel anytime.</h2>
+                    <h3>Ready to watch? Enter your email to create or restart your membership.</h3>
+                  <form action="" onSubmit={(e)=>{ email&&showSignIn(e) }}>
+                      <input
+                        ref={inputEle}
+                        type="email"
+                        id="email"
+                        required
+                        autoFocus
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                        value={email}
+                        onChange={(e)=>{setEmail(e.target.value)}}
+                        placeholder='Email address' />
+                    <button type="submit">Get Started &gt;</button>
+                  </form>
+                </div>
+              </FormContainer>
+          )}
       </div>
       <Footer />
     </LoginViewContainer>
