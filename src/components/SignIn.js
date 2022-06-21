@@ -48,7 +48,6 @@ width:100%;
 }
 `
 const FormContainer = styled(flexBox)`
-
 > form{
   >label{
     display: flex;

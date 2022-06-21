@@ -14,16 +14,12 @@ function LoginView() {
   const inputEle = useRef(null);
 
   const passEleRef = useCallback((logoEle, signInEle) => {
+    // pass logo and signin button ref to LoginView comp
       setNavEleObj({
         "logo": logoEle,
         "signIn": signInEle
       });
-      // console.log(navEleObj);
     },[])
-
-  // useEffect(() => {
-  //   console.log(navEleObj);
-  //  })
 
   const showSignIn = ((e) => {
     const { logo, signIn } = { ...navEleObj };
@@ -38,6 +34,7 @@ function LoginView() {
     logo.style.cursor = "pointer";
     // console.log(logoEle);
   })
+  
  
   const hideSignIn = (e) => {
     const { logo, signIn } = { ...navEleObj };
