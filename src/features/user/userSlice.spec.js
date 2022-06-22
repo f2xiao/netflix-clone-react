@@ -15,11 +15,11 @@ describe('user reducer', () => {
   it('should handle login', () => {
     const actual = userReducer(initialState, login({
       username: 'James',
-      password: 'abcd@Test$1234'
+      uid: 'sadsjahdaskda'
     }));
     expect(actual.user).toEqual({
       username: 'James',
-      password: 'abcd@Test$1234'
+      uid: 'sadsjahdaskda'
     });
   });
 

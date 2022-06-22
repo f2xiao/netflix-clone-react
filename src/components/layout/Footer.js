@@ -56,6 +56,7 @@ function Footer() {
 export default Footer
 
 const FooterContainerWrapper = styled.div`
+  margin-top: 3em;
   background-color: rgba(255,255,255,0.8);
 `
 const FooterContainer = styled.div`

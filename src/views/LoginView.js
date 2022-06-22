@@ -35,7 +35,6 @@ function LoginView() {
     // console.log(logoEle);
   })
   
- 
   const hideSignIn = (e) => {
     const { logo, signIn } = { ...navEleObj };
     // prevent refresh

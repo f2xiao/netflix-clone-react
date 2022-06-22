@@ -1,12 +1,16 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { selectUser } from '../../features/user/userSlice';
 import logo from '../../logo.svg';
+import { Link } from "react-router-dom";
 
 function Nav({handleOnMount, handleButtonClick, handleImgClick}) {
-  const user = true;
+  const user = useSelector(selectUser);
   const [show, setShow] = useState(false);
   const buttonEle = useRef(null);
   const logoEle = useRef(null);
+  
   const transitionNavBar = () => {
     if (window.scrollY > 100) {
       // show nav background
@@ -38,7 +42,16 @@ function Nav({handleOnMount, handleButtonClick, handleImgClick}) {
         className="logo"
         onClick={(e) => {handleImgClick(e)}} />
       {user ?
-        <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png" alt="" className="avatar" /> :
+        
+        <Link to="/profile">
+        <img
+          className="avatar"
+          style={{ height: "2em",cursor: "pointer", borderRadius: 4}}
+          src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png"
+          alt="avatar"
+        />
+        </Link>
+         :
         <button
           ref={buttonEle}
           onClick={(e) => { handleButtonClick(e) }}>Sign In</button>
@@ -62,11 +75,6 @@ const NavContainer = styled.div`
   > img.logo {
     width: 4em;
     pointer-events: none;
-  }
-  > img.avatar {
-    height: 2em;
-    cursor: pointer;
-    border-radius: 4px;
   }
   
   &.black {

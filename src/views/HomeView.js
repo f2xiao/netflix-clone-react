@@ -138,7 +138,7 @@ function HomeView() {
         })
       }
         <Preview handleMouseLeave={hidePreview} preview={preview} />
-        <Footer />
+      <Footer />
     </div>
   );
 }

@@ -1,17 +1,62 @@
-import React, {useState} from 'react'
+import React, {useState, useRef} from 'react'
 import styled from 'styled-components';
+import { auth } from '.././firebase.js';
+import {createUserWithEmailAndPassword,signInWithEmailAndPassword} from "firebase/auth"
 function SignIn({ email }) {
   const [input, setInput] = useState(email);
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+  const register = (e) => { 
+    e.preventDefault();
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in， dispatch login action to the store
+      console.log(userCredential)
+      const authUser = userCredential.user;
+      console.log(authUser)
+
+      // ...
+    })
+    .catch((error) => {
+      const errorMessage = error.message;
+      alert(errorMessage)
+      // ..
+    });
+    
+   }
+  const signin = (e) => { 
+    e.preventDefault();
+    console.log(emailRef.current.value);
+    console.log(passwordRef.current.value);
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+
+    signInWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    console.log(user)
+    // ...
+  })
+  .catch((error) => {
+    const errorMessage = error.message;
+    alert(errorMessage);
+  });
+
+   }
   return (
     <SignInContainer>
       <div style={{padding:'4em', background:'rgba(255,255,255,0.8)', borderRadius:'4px', width:'40%', maxWidth:500}}>
       <h1>Sign In</h1>
       <FormContainer>
-          <form action="/" onSubmit>
+          <form action="/" onSubmit={(e)=>{signin(e)}}>
             <label htmlFor="">
               <label htmlFor="">Email or phone number</label>
               <input
                 required
+                ref={emailRef}
                 type="email"
                 name="" id="email"
                 autoFocus
@@ -21,12 +66,12 @@ function SignIn({ email }) {
             </label>
             <label>
               <label htmlFor="">Password</label>
-              <input required minLength="8" type="password" name="" id="" />
+              <input required ref={passwordRef} minLength="8" type="password" name="" id="" />
             </label>
             <button type="submit">Sign in</button>
           </form>
           <p style={{marginTop:'3em', fontSize:'1.2em'}}>
-            New to Netflix?<a style={{display:'inline-block', marginLeft:'0.3em'}} href="/#">Sign up now.</a>
+            New to Netflix?<span style={{display:'inline-block', marginLeft:'0.3em', textDecoration:'underline', cursor:'pointer'}} onClick={(e)=>{register(e)}}>Sign up now.</span>
           </p>
       </FormContainer>
       </div>
