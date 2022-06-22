@@ -86,8 +86,6 @@ function Row({ title, fetchUrl, isLargeRow = false, handleMouseOver}) {
                 alt={movie.name}
                 src={`${imgbase_url}${isLargeRow ? (movie?.poster_path) : (movie?.backdrop_path)}`}
                 onMouseOver={(e) => { handleMouseOver(e, movie) }}
-                // onMouseOver={(e) => { e.target.style.transform="scale(1.5)" }}
-              // onMouseLeave={()=>{handleMouseLeave()}}
               />
           )
           )

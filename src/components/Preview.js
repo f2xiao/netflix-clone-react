@@ -43,7 +43,7 @@ function Preview({ preview, handleMouseLeave }) {
           src={`${ytBaseUrl}${preview.video.key}?mute=1&autoplay=1 `}
           frameBorder="0"
           allow="autoplay; encrypted-media"
-          allowfullscreen
+          allowFullScreen
           title="video"
           />
         </div>

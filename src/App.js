@@ -6,7 +6,7 @@ import HomeView from "./views/HomeView"
 import LoginView from "./views/LoginView"
 
 export default function App() {
-  const user = null;
+  const user = true;
   return (
     <div className="App">
       {!user ? <LoginView /> : (

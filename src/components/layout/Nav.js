@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import logo from '../../logo.svg';
 
 function Nav({handleOnMount, handleButtonClick, handleImgClick}) {
-  const user = null;
+  const user = true;
   const [show, setShow] = useState(false);
   const buttonEle = useRef(null);
   const logoEle = useRef(null);
@@ -19,7 +19,9 @@ function Nav({handleOnMount, handleButtonClick, handleImgClick}) {
   useEffect(() => {
     // add scroll event handler on mount for nav background
     window.addEventListener('scroll', transitionNavBar);
-    handleOnMount(logoEle.current, buttonEle.current )
+    if (handleOnMount) {
+      handleOnMount(logoEle.current, buttonEle.current )
+    }
     // console.log(logoEle.current)
     // console.log(buttonEle.current)
     return () => {
