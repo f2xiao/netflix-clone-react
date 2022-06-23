@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Routes,
@@ -17,45 +17,19 @@ import Nav from "./components/layout/Nav";
 
 export default function App() {
   const [signIn, setSignIn] = useState(false);
-  const [navEleObj, setNavEleObj] = useState({
-    "logo": null,
-    "signIn": null
-  }); 
-
-  const passEleRef = useCallback((logoEle, signInEle) => {
-    // pass logo and signin button ref to LoginView comp
-      setNavEleObj({
-        "logo": logoEle,
-        "signIn": signInEle
-      });
-    },[])
 
   const showSignIn = ((e) => {
-    const { logo, signIn } = { ...navEleObj };
     // prevent refresh 
     e.preventDefault();
-    // show SignIn comp
-
+    // show SignIn comp and hide the signin button
     setSignIn(true);
-    // console.log(logo, signIn)
-    // hide the signin button
-   signIn.style.display = "none";
-    // enable logo image click
-    logo.style.pointerEvents = "auto";
-    logo.style.cursor = "pointer";
-    // console.log(logoEle);
   })
   
   const hideSignIn = (e) => {
-    const { logo, signIn } = { ...navEleObj };
     // prevent refresh
     e.preventDefault();
-    // disable logo image click
-    logo.style.pointerEvents = "none";
-     // show SignIn comp
+     // hide SignIn comp and show the signin button
      setSignIn(false);
-     // hide the signin button
-     signIn.style.display = "block";
   }
 
   const user = useSelector(selectUser);
@@ -66,7 +40,6 @@ export default function App() {
     signOut(auth).then(() => {
       // Sign-out successful.
       dispatch(logout());
-      
     }).catch((error) => {
       // An error happened.
     });
@@ -92,7 +65,7 @@ export default function App() {
    }, [])
   return (
     <div className="App">
-      <Nav handleOnMount={passEleRef} handleImgClick={hideSignIn} handleButtonClick={showSignIn}
+      <Nav handleImgClick={hideSignIn} handleButtonClick={showSignIn}
       signIn={signIn}
       />
       {!user ? <LoginView showSignIn={showSignIn} signIn={signIn} /> : (

@@ -1,16 +1,13 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { selectUser } from '../../features/user/userSlice';
 import logo from '../../logo.svg';
 import { Link } from "react-router-dom";
 
-function Nav({handleOnMount, handleButtonClick, handleImgClick, signIn}) {
+function Nav({handleButtonClick, handleImgClick, signIn}) {
   const user = useSelector(selectUser);
   const [show, setShow] = useState(false);
-  const buttonEle = useRef(null);
-  const logoEle = useRef(null);
-  // console.log(user)
   
   const transitionNavBar = () => {
     if (window.scrollY > 100) {
@@ -24,16 +21,11 @@ function Nav({handleOnMount, handleButtonClick, handleImgClick, signIn}) {
   useEffect(() => {
     // add scroll event handler on mount for nav background
     window.addEventListener('scroll', transitionNavBar);
-    if (handleOnMount) {
-      handleOnMount(logoEle.current, buttonEle.current )
-    }
-    // console.log(logoEle.current)
-    // console.log(buttonEle.current)
     return () => {
       // clean up event listener on unmount
       window.removeEventListener('scroll', transitionNavBar);
     };
-   }, [handleOnMount])
+   }, [])
   return (
     <NavContainer className={show && 'black'}>
       {user ?
@@ -46,7 +38,6 @@ function Nav({handleOnMount, handleButtonClick, handleImgClick, signIn}) {
         </Link>)
         :
       <img
-        ref={logoEle}
         src={logo}
         alt="logo"
         style={{ width: '4em' }}
@@ -63,7 +54,6 @@ function Nav({handleOnMount, handleButtonClick, handleImgClick, signIn}) {
         </Link>)
          :
           (!signIn && (<button
-          ref={buttonEle}
           onClick={(e) => { handleButtonClick(e) }}>Sign In</button>))
       }
     </NavContainer>

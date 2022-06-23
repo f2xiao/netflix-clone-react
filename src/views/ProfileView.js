@@ -8,7 +8,9 @@ function ProfileView({handleClick}) {
   return (
     <ProfileViewContainer>
       <ProfileContainer>
-        <h1>Edit Profile</h1>
+        <h1>
+          Edit Profile 
+        </h1>
         <hr />
         <ProfileContentContainer>
           <img />
