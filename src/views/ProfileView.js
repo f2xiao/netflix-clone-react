@@ -1,12 +1,16 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
-import { selectUser } from '../features/user/userSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectUser, logout } from '../features/user/userSlice'
 
 function ProfileView() {
-  const user = useSelector(selectUser)
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
   return (
     <div>ProfileView
       <p>{user.email}</p>
+      <button
+        onClick={()=>{dispatch(logout())}}
+      >Sign out</button>
     </div>
   )
 }

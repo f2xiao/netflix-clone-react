@@ -1,6 +1,5 @@
 import React, { useState, useRef, useCallback } from 'react';
 import styled from 'styled-components';
-import Footer from '../components/layout/Footer';
 import Nav from '../components/layout/Nav';
 import SignIn from '../components/SignIn';
 
@@ -74,7 +73,6 @@ function LoginView() {
               </FormContainer>
           )}
       </div>
-      <Footer />
     </LoginViewContainer>
   )
 }

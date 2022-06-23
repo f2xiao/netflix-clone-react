@@ -11,29 +11,31 @@ import ProfileView from "./views/ProfileView";
 import { auth } from './firebase.js';
 import { onAuthStateChanged } from "firebase/auth"
 import { login, logout } from "./features/user/userSlice";
+import Footer from "./components/layout/Footer";
+
 
 export default function App() {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
   useEffect(() => { 
-    const  unsubscribe=onAuthStateChanged(auth, (user) => {
+    // attach a listener to auth state changes, so whenever there is a changes on auth state, the handler will be executed
+    const unsubscribe=onAuthStateChanged(auth, (user) => {
       if (user) {
-        // login
-        console.log(user)
+        // login user
+        // console.log(user)
         dispatch(login({
           email: user.email,
           uid:user.uid
         }))
         // ...
       } else {
-        // logout
+        // logout user
         dispatch(logout())
       }
     });
     return unsubscribe;
    }, [])
-
   return (
     <div className="App">
       {!user ? <LoginView /> : (
@@ -42,6 +44,7 @@ export default function App() {
           <Route exact path="/profile" element={<ProfileView />} />
         </Routes>
       )}
+      <Footer />
     </div>
   );
 }

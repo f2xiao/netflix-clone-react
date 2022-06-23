@@ -6,7 +6,6 @@ import Row from '.././components/Row';
 import requests from './../Request';
 import axios from '.././axios';
 import Preview from '../components/Preview';
-import Footer from '../components/layout/Footer';
 
 const api_key = process.env.REACT_APP_API_KEY;
 
@@ -138,7 +137,7 @@ function HomeView() {
         })
       }
         <Preview handleMouseLeave={hidePreview} preview={preview} />
-      <Footer />
+      
     </div>
   );
 }

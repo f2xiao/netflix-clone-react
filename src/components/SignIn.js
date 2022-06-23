@@ -13,9 +13,10 @@ function SignIn({ email }) {
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in， dispatch login action to the store
-      console.log(userCredential)
+      // console.log(userCredential)
+      alert('Registered successfully!')
       const authUser = userCredential.user;
-      console.log(authUser)
+      // console.log(authUser);
 
       // ...
     })
@@ -28,8 +29,6 @@ function SignIn({ email }) {
    }
   const signin = (e) => { 
     e.preventDefault();
-    console.log(emailRef.current.value);
-    console.log(passwordRef.current.value);
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
 
