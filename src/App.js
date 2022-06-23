@@ -9,7 +9,7 @@ import HomeView from "./views/HomeView"
 import LoginView from "./views/LoginView"
 import ProfileView from "./views/ProfileView";
 import { auth } from './firebase.js';
-import { onAuthStateChanged } from "firebase/auth"
+import { onAuthStateChanged, signOut } from "firebase/auth"
 import { login, logout } from "./features/user/userSlice";
 import Footer from "./components/layout/Footer";
 import Nav from "./components/layout/Nav";
@@ -35,6 +35,7 @@ export default function App() {
     // prevent refresh 
     e.preventDefault();
     // show SignIn comp
+
     setSignIn(true);
     // console.log(logo, signIn)
     // hide the signin button
@@ -60,6 +61,17 @@ export default function App() {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
+  const signout = (e) => {
+    e.preventDefault();
+    signOut(auth).then(() => {
+      // Sign-out successful.
+      dispatch(logout());
+      
+    }).catch((error) => {
+      // An error happened.
+    });
+   }
+
   useEffect(() => { 
     // attach a listener to auth state changes, so whenever there is a changes on auth state, the handler will be executed
     const unsubscribe=onAuthStateChanged(auth, (user) => {
@@ -80,11 +92,13 @@ export default function App() {
    }, [])
   return (
     <div className="App">
-      <Nav handleOnMount={passEleRef} handleImgClick={hideSignIn} handleButtonClick={showSignIn} />
-      {!user ? <LoginView signIn={signIn} showSignIn={showSignIn} /> : (
+      <Nav handleOnMount={passEleRef} handleImgClick={hideSignIn} handleButtonClick={showSignIn}
+      signIn={signIn}
+      />
+      {!user ? <LoginView showSignIn={showSignIn} signIn={signIn} /> : (
         <Routes>
           <Route exact path="/" element={<HomeView />} />
-          <Route exact path="/profile" element={<ProfileView />} />
+          <Route exact path="/profile" element={<ProfileView handleClick={signout} />} />
         </Routes>
       )}
       <Footer />

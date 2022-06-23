@@ -5,7 +5,7 @@ import { selectUser } from '../../features/user/userSlice';
 import logo from '../../logo.svg';
 import { Link } from "react-router-dom";
 
-function Nav({handleOnMount, handleButtonClick, handleImgClick}) {
+function Nav({handleOnMount, handleButtonClick, handleImgClick, signIn}) {
   const user = useSelector(selectUser);
   const [show, setShow] = useState(false);
   const buttonEle = useRef(null);
@@ -49,7 +49,8 @@ function Nav({handleOnMount, handleButtonClick, handleImgClick}) {
         ref={logoEle}
         src={logo}
         alt="logo"
-        style={{width: '4em', pointerEvents:'none'}}
+        style={{ width: '4em' }}
+        className={signIn? 'logo' : 'undefined'}
         onClick={(e) => {handleImgClick(e)}} />
       }
       {user ?
@@ -61,9 +62,9 @@ function Nav({handleOnMount, handleButtonClick, handleImgClick}) {
         />
         </Link>)
          :
-        <button
+          (!signIn && (<button
           ref={buttonEle}
-          onClick={(e) => { handleButtonClick(e) }}>Sign In</button>
+          onClick={(e) => { handleButtonClick(e) }}>Sign In</button>))
       }
     </NavContainer>
   )
@@ -81,6 +82,9 @@ const NavContainer = styled.div`
   align-items: center;
   padding: 1.5em var(--padding-left);
   transition: all 0.5s ease-in;
+  >img.logo{
+    cursor: pointer;
+  }
   > * > img.avatar{
     height:2em;
     cursor: pointer;

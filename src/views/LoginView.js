@@ -5,12 +5,13 @@ import SignIn from '../components/SignIn';
 function LoginView({signIn, showSignIn}) {
   const [email, setEmail] = useState('');
   const inputEle = useRef(null);
+  // console.log(signIn)
 
   return (
     <LoginViewContainer>
       <div style={{minHeight: '85vh', display:'flex', justifyContent:'center'}}>
         {  
-          signIn ? <SignIn email={email} /> : (
+          signIn ?( <SignIn email={email} />) : (
               <FormContainer>
                   <div>
                     <h1>Unlimited movies, TV shows, and more.</h1>
