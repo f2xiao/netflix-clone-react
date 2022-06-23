@@ -65,8 +65,10 @@ export default function App() {
    }, [])
   return (
     <div className="App">
-      <Nav handleImgClick={hideSignIn} handleButtonClick={showSignIn}
-      signIn={signIn}
+      <Nav
+        handleImgClick={hideSignIn}
+        handleButtonClick={showSignIn}
+        signIn={signIn}
       />
       {!user ? <LoginView showSignIn={showSignIn} signIn={signIn} /> : (
         <Routes>

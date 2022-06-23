@@ -22,7 +22,7 @@ function Footer() {
           <ul>
             <li><a href="https://github.com/f2xiao/netflix-clone-react" target="_blank" rel="noopener noreferrer">
             <span><CodeBlock /></span>
-              <span>&nbsp;with</span>
+              <span>&nbsp;with(click for source code)</span>
             </a></li>
             <li><a href="https://reactjs.org/" target="_blank" rel="noopener noreferrer">
               <span><ReactLogo /></span>
