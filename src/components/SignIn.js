@@ -14,7 +14,7 @@ function SignIn({ email }) {
     .then((userCredential) => {
       // Signed in， dispatch login action to the store
       // console.log(userCredential)
-      alert('Registered successfully!')
+      alert('Register successfully!')
       const authUser = userCredential.user;
       // console.log(authUser);
 
@@ -36,7 +36,8 @@ function SignIn({ email }) {
   .then((userCredential) => {
     // Signed in 
     const user = userCredential.user;
-    console.log(user)
+    alert('Signin successfully!')
+    // console.log(user)
     // ...
   })
   .catch((error) => {

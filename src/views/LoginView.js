@@ -1,53 +1,13 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
-import Nav from '../components/layout/Nav';
 import SignIn from '../components/SignIn';
 
-function LoginView() {
-  const [signIn, setSignIn] = useState(false);
+function LoginView({signIn, showSignIn}) {
   const [email, setEmail] = useState('');
-  const [navEleObj, setNavEleObj] = useState({
-    "logo": null,
-    "signIn": null
-  }); 
   const inputEle = useRef(null);
 
-  const passEleRef = useCallback((logoEle, signInEle) => {
-    // pass logo and signin button ref to LoginView comp
-      setNavEleObj({
-        "logo": logoEle,
-        "signIn": signInEle
-      });
-    },[])
-
-  const showSignIn = ((e) => {
-    const { logo, signIn } = { ...navEleObj };
-    // prevent refresh 
-    e.preventDefault();
-    // show SignIn comp
-    setSignIn(true);
-    // hide the signin button
-   signIn.style.display = "none";
-    // enable logo image click
-    logo.style.pointerEvents = "auto";
-    logo.style.cursor = "pointer";
-    // console.log(logoEle);
-  })
-  
-  const hideSignIn = (e) => {
-    const { logo, signIn } = { ...navEleObj };
-    // prevent refresh
-    e.preventDefault();
-    // disable logo image click
-    logo.style.pointerEvents = "none";
-     // show SignIn comp
-     setSignIn(false);
-     // hide the signin button
-     signIn.style.display = "block";
-  }
   return (
     <LoginViewContainer>
-      <Nav handleOnMount={passEleRef} handleImgClick={hideSignIn} handleButtonClick={showSignIn} />
       <div style={{minHeight: '85vh', display:'flex', justifyContent:'center'}}>
         {  
           signIn ? <SignIn email={email} /> : (

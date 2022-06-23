@@ -10,6 +10,7 @@ function Nav({handleOnMount, handleButtonClick, handleImgClick}) {
   const [show, setShow] = useState(false);
   const buttonEle = useRef(null);
   const logoEle = useRef(null);
+  // console.log(user)
   
   const transitionNavBar = () => {
     if (window.scrollY > 100) {
@@ -34,23 +35,31 @@ function Nav({handleOnMount, handleButtonClick, handleImgClick}) {
     };
    }, [handleOnMount])
   return (
-    <NavContainer className={ show && 'black'}>
+    <NavContainer className={show && 'black'}>
+      {user ?
+        (<Link to="/" >
+          <img
+            src={logo}
+            alt="logo"
+            style={{width: '4em', pointerEvents:'none'}}
+          />
+        </Link>)
+        :
       <img
         ref={logoEle}
         src={logo}
         alt="logo"
-        className="logo"
+        style={{width: '4em', pointerEvents:'none'}}
         onClick={(e) => {handleImgClick(e)}} />
+      }
       {user ?
-        
-        <Link to="/profile">
+        (<Link to="/profile">
         <img
           className="avatar"
-          style={{ height: "2em",cursor: "pointer", borderRadius: 4}}
           src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png"
           alt="avatar"
         />
-        </Link>
+        </Link>)
          :
         <button
           ref={buttonEle}
@@ -72,9 +81,10 @@ const NavContainer = styled.div`
   align-items: center;
   padding: 1.5em var(--padding-left);
   transition: all 0.5s ease-in;
-  > img.logo {
-    width: 4em;
-    pointer-events: none;
+  > * > img.avatar{
+    height:2em;
+    cursor: pointer;
+    border-radius: 4px;
   }
   
   &.black {

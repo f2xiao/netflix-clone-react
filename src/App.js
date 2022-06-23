@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Routes,
@@ -12,9 +12,51 @@ import { auth } from './firebase.js';
 import { onAuthStateChanged } from "firebase/auth"
 import { login, logout } from "./features/user/userSlice";
 import Footer from "./components/layout/Footer";
+import Nav from "./components/layout/Nav";
 
 
 export default function App() {
+  const [signIn, setSignIn] = useState(false);
+  const [navEleObj, setNavEleObj] = useState({
+    "logo": null,
+    "signIn": null
+  }); 
+
+  const passEleRef = useCallback((logoEle, signInEle) => {
+    // pass logo and signin button ref to LoginView comp
+      setNavEleObj({
+        "logo": logoEle,
+        "signIn": signInEle
+      });
+    },[])
+
+  const showSignIn = ((e) => {
+    const { logo, signIn } = { ...navEleObj };
+    // prevent refresh 
+    e.preventDefault();
+    // show SignIn comp
+    setSignIn(true);
+    // console.log(logo, signIn)
+    // hide the signin button
+   signIn.style.display = "none";
+    // enable logo image click
+    logo.style.pointerEvents = "auto";
+    logo.style.cursor = "pointer";
+    // console.log(logoEle);
+  })
+  
+  const hideSignIn = (e) => {
+    const { logo, signIn } = { ...navEleObj };
+    // prevent refresh
+    e.preventDefault();
+    // disable logo image click
+    logo.style.pointerEvents = "none";
+     // show SignIn comp
+     setSignIn(false);
+     // hide the signin button
+     signIn.style.display = "block";
+  }
+
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
@@ -38,7 +80,8 @@ export default function App() {
    }, [])
   return (
     <div className="App">
-      {!user ? <LoginView /> : (
+      <Nav handleOnMount={passEleRef} handleImgClick={hideSignIn} handleButtonClick={showSignIn} />
+      {!user ? <LoginView signIn={signIn} showSignIn={showSignIn} /> : (
         <Routes>
           <Route exact path="/" element={<HomeView />} />
           <Route exact path="/profile" element={<ProfileView />} />

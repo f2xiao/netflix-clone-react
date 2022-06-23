@@ -126,7 +126,7 @@ function HomeView() {
 
     return (
     <div style={{paddingBottom:'4em'}}>
-      <Nav />
+      {/* <Nav /> */}
       <Banner />
       {fetchRows.map(row => {
         return (
