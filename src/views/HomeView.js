@@ -1,7 +1,6 @@
 import React, {useState,useEffect} from 'react';
 import '.././App.css';
-import Banner from '.././components/Banner';
-import Nav from '.././components/layout/Nav'; 
+import Banner from '.././components/Banner'; 
 import Row from '.././components/Row';
 import requests from './../Request';
 import axios from '.././axios';
@@ -126,7 +125,6 @@ function HomeView() {
 
     return (
     <div style={{paddingBottom:'4em'}}>
-      {/* <Nav /> */}
       <Banner />
       {fetchRows.map(row => {
         return (
